@@ -4,8 +4,9 @@ import React from "react";
 import { useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
-const SignUp = () => {
+export default function SignUp() {
   const {
     register,
     handleSubmit,
@@ -20,6 +21,8 @@ const SignUp = () => {
     password: "",
   });
 
+  const router = useRouter();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({
@@ -28,8 +31,49 @@ const SignUp = () => {
     });
   };
 
-  const onSubmit = (e) => {
-    console.log("Form submitted:", form);
+  const onSubmit = async (e) => {
+    try {
+      let res = await fetch("http://localhost:4000/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      // not verified
+
+      if (res.status == 400) {
+        alert(data.error);
+        localStorage.clear();
+      }
+
+      // email in use
+
+      if (res.status == 401) {
+        alert(data.error);
+      }
+
+      // account created
+
+      if (res.status == 200) {
+        alert("Account Created Successfully");
+
+        localStorage.setItem("authToken", data.authToken);
+        router.push('/otp');
+      }
+
+      // server error
+
+      if (res.status == 500) {
+        alert(data.error);
+      }
+    } 
+    catch (error) {
+      console.log("server Issue");
+    }
   };
 
   return (
@@ -39,7 +83,6 @@ const SignUp = () => {
           Create your account
         </h2>
         <form action="" onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-
           {/* Name */}
           <div>
             <label
@@ -82,7 +125,7 @@ const SignUp = () => {
               Email address
             </label>
             <input
-            {...register("email", {
+              {...register("email", {
                 required: {
                   value: true,
                   message: "Email is required",
@@ -102,7 +145,9 @@ const SignUp = () => {
               }`}
             />
             {errors.email && (
-              <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
+              <p className="text-sm text-red-600 mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -115,7 +160,7 @@ const SignUp = () => {
               Password
             </label>
             <input
-            {...register("password", {
+              {...register("password", {
                 required: {
                   value: true,
                   message: "Password is required",
@@ -136,7 +181,9 @@ const SignUp = () => {
               }`}
             />
             {errors.password && (
-              <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>
+              <p className="text-sm text-red-600 mt-1">
+                {errors.password.message}
+              </p>
             )}
           </div>
 
@@ -160,4 +207,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+// export default SignUp;

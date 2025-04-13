@@ -1,94 +1,123 @@
-"use client"
+"use client";
 
-import React from 'react';
-import { useState } from 'react';
-import Link from 'next/link';
+import React from "react";
+import { useState } from "react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
 
 const SignIn = () => {
-  const [form, setForm] = useState({ email: '', password: '' });
-  const [errors, setErrors] = useState({});
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
   };
 
-  const validate = () => {
-    const newErrors = {};
-    if (!form.email) newErrors.email = 'Email is required';
-    if (!form.password) newErrors.password = 'Password is required';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      console.log('Submitting:', form);
-      // Handle actual authentication here
-    }
+  const onSubmit = (e) => {
+    console.log("Form submitted:", form);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">SignIn</h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          SignIn
+        </h2>
+        <form action="" onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
               Email address
             </label>
             <input
+            {...register("email", {
+                required: {
+                  value: true,
+                  message: "Email is required",
+                },
+                minLength: { value: 5, message: "Min lenght is 5" },
+              })}
               type="email"
+              id="email"
               name="email"
               value={form.email}
               onChange={handleChange}
-              className={`mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 ${
-                errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-indigo-500'
-              }`}
               placeholder="you@example.com"
+              className={`mt-1 block w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+                errors.email
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-indigo-500"
+              }`}
             />
-            {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
+            )}
           </div>
 
           {/* Password */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <input
+            {...register("password", {
+                required: {
+                  value: true,
+                  message: "Password is required",
+                },
+                minLength: { value: 3, message: "Min lenght is 3" },
+                maxLength: { value: 10, message: "Max lenght is 10" },
+              })}
               type="password"
               name="password"
+              id="password"
               value={form.password}
               onChange={handleChange}
-              className={`mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 ${
-                errors.password ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-indigo-500'
-              }`}
               placeholder="••••••••"
+              className={`mt-1 block w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+                errors.password
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-indigo-500"
+              }`}
             />
-            {errors.password && <p className="text-sm text-red-600 mt-1">{errors.password}</p>}
-          </div>
-
-          {/* Options */}
-          <div className="flex items-center justify-end">
-            <a href="#" className="text-sm text-indigo-600 hover:underline">
-              Forgot password?
-            </a>
+            {errors.password && (
+              <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>
+            )}
           </div>
 
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition"
+            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition hover:cursor-pointer"
           >
             Sign In
           </button>
         </form>
 
-        {/* Divider */}
         <div className="mt-6 text-center text-sm text-gray-600">
-          Don't have an account?{' '}
-          <Link href={"signup"} className="text-indigo-600 hover:underline">
+          Don't have an account?{" "}
+          <Link href={"/signup"} className="text-indigo-600 hover:underline">
             Sign Up
           </Link>
         </div>
