@@ -4,6 +4,7 @@ import React from "react";
 import { useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const {
@@ -18,6 +19,7 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,8 +29,34 @@ const SignIn = () => {
     });
   };
 
-  const onSubmit = (e) => {
-    console.log("Form submitted:", form);
+  const onSubmit = async (e) => {
+
+    let res = await fetch("http://localhost:4000/api/signin", {
+
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    })
+    const data = await res.json()
+
+    if (res.status == 400) {
+      alert(data.error);
+      router.push('/');
+    }
+    if (res.status == 401) {
+      alert(data.error);
+    }
+    if (res.status == 200) {
+      alert("Login Successfully");
+
+      localStorage.setItem("authToken", data.authToken);
+      router.push('/home');
+    }
+    if (res.status == 500) {
+      alert(data.error);
+    }
   };
 
   return (

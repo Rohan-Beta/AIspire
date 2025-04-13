@@ -59,7 +59,7 @@ export default function SignUp() {
       // account created
 
       if (res.status == 200) {
-        alert("Account Created Successfully");
+        alert("Otp Sent To Your Email Address");
 
         localStorage.setItem("authToken", data.authToken);
         router.push('/otp');
