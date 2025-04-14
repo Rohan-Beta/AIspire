@@ -62,7 +62,7 @@ export default function SignUp() {
         alert("Otp Sent To Your Email Address");
 
         localStorage.setItem("authToken", data.authToken);
-        router.push('/otp');
+        router.push("/otp");
       }
 
       // server error
@@ -70,8 +70,7 @@ export default function SignUp() {
       if (res.status == 500) {
         alert(data.error);
       }
-    } 
-    catch (error) {
+    } catch (error) {
       console.log("server Issue");
     }
   };
@@ -205,6 +204,6 @@ export default function SignUp() {
       </div>
     </div>
   );
-};
+}
 
 // export default SignUp;

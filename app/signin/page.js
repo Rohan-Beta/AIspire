@@ -30,32 +30,38 @@ const SignIn = () => {
   };
 
   const onSubmit = async (e) => {
+    
+    try {
+      
+      let res = await fetch("http://localhost:4000/api/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+  
+      if (res.status == 400) {
+        alert(data.error);
+        router.push("/");
+      }
+      if (res.status == 401) {
+        alert(data.error);
+        router.push("/signup");
+      }
+      if (res.status == 200) {
+        alert("Login Successfully");
+  
+        localStorage.setItem("authToken", data.authToken);
+        router.push("/home");
+      }
+      if (res.status == 500) {
+        alert(data.error);
+      }
 
-    let res = await fetch("http://localhost:4000/api/signin", {
-
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    })
-    const data = await res.json()
-
-    if (res.status == 400) {
-      alert(data.error);
-      router.push('/');
-    }
-    if (res.status == 401) {
-      alert(data.error);
-    }
-    if (res.status == 200) {
-      alert("Login Successfully");
-
-      localStorage.setItem("authToken", data.authToken);
-      router.push('/home');
-    }
-    if (res.status == 500) {
-      alert(data.error);
+    } catch (error) {
+      alert("Server Issue")
     }
   };
 
@@ -66,7 +72,6 @@ const SignIn = () => {
           SignIn
         </h2>
         <form action="" onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-
           {/* Email */}
           <div>
             <label
@@ -76,7 +81,7 @@ const SignIn = () => {
               Email address
             </label>
             <input
-            {...register("email", {
+              {...register("email", {
                 required: {
                   value: true,
                   message: "Email is required",
@@ -96,7 +101,9 @@ const SignIn = () => {
               }`}
             />
             {errors.email && (
-              <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
+              <p className="text-sm text-red-600 mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -109,7 +116,7 @@ const SignIn = () => {
               Password
             </label>
             <input
-            {...register("password", {
+              {...register("password", {
                 required: {
                   value: true,
                   message: "Password is required",
@@ -130,8 +137,16 @@ const SignIn = () => {
               }`}
             />
             {errors.password && (
-              <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>
+              <p className="text-sm text-red-600 mt-1">
+                {errors.password.message}
+              </p>
             )}
+          </div>
+
+          <div className="flex justify-end">
+            <Link className="text-indigo-600 hover:underline" href={"/forgetpassword"}>
+              Forget Password
+            </Link>
           </div>
 
           {/* Submit */}
