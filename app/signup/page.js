@@ -5,6 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default function SignUp() {
   const {
@@ -76,133 +77,146 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-          Create your account
-        </h2>
-        <form action="" onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Name */}
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Full Name
-            </label>
-            <input
-              {...register("name", {
-                required: {
-                  value: true,
-                  message: "Name is required",
-                },
-                minLength: { value: 3, message: "Min lenght is 3" },
-              })}
-              type="text"
-              id="name"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="your name"
-              className={`mt-1 block w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-                errors.name
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-indigo-500"
-              }`}
-            />
-            {errors.name && (
-              <p className="text-sm text-red-600 mt-1">{errors.name.message}</p>
-            )}
-          </div>
-
-          {/* Email */}
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email address
-            </label>
-            <input
-              {...register("email", {
-                required: {
-                  value: true,
-                  message: "Email is required",
-                },
-                minLength: { value: 5, message: "Min lenght is 5" },
-              })}
-              type="email"
-              id="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="you@example.com"
-              className={`mt-1 block w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-                errors.email
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-indigo-500"
-              }`}
-            />
-            {errors.email && (
-              <p className="text-sm text-red-600 mt-1">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-
-          {/* Password */}
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              {...register("password", {
-                required: {
-                  value: true,
-                  message: "Password is required",
-                },
-                minLength: { value: 3, message: "Min lenght is 3" },
-                maxLength: { value: 10, message: "Max lenght is 10" },
-              })}
-              type="password"
-              name="password"
-              id="password"
-              value={form.password}
-              onChange={handleChange}
-              placeholder="••••••••"
-              className={`mt-1 block w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-                errors.password
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-indigo-500"
-              }`}
-            />
-            {errors.password && (
-              <p className="text-sm text-red-600 mt-1">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
-
-          {/* Submit */}
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition hover:cursor-pointer"
+    <>
+      <nav className="flex justify-between items-center h-14 border px-4">
+        <div className="text-blue-600 font-bold text-2xl md:text-3xl">
+          AIspire
+        </div>
+      </nav>
+      <div className="min-h-[90vh] flex items-center justify-center bg-gray-50 px-4">
+        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+            Create your account
+          </h2>
+          <form
+            action=""
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-6"
           >
-            Sign Up
-          </button>
-        </form>
+            {/* Name */}
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Full Name
+              </label>
+              <input
+                {...register("name", {
+                  required: {
+                    value: true,
+                    message: "Name is required",
+                  },
+                  minLength: { value: 3, message: "Min lenght is 3" },
+                })}
+                type="text"
+                id="name"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="username"
+                className={`mt-1 block w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+                  errors.name
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 focus:ring-indigo-500"
+                }`}
+              />
+              {errors.name && (
+                <p className="text-sm text-red-600 mt-1">
+                  {errors.name.message}
+                </p>
+              )}
+            </div>
 
-        <div className="mt-6 text-center text-sm text-gray-600">
-          Already have an account?{" "}
-          <Link href={"/signin"} className="text-indigo-600 hover:underline">
-            Sign In
-          </Link>
+            {/* Email */}
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email address
+              </label>
+              <input
+                {...register("email", {
+                  required: {
+                    value: true,
+                    message: "Email is required",
+                  },
+                  minLength: { value: 5, message: "Min lenght is 5" },
+                })}
+                type="email"
+                id="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="you@example.com"
+                className={`mt-1 block w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+                  errors.email
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 focus:ring-indigo-500"
+                }`}
+              />
+              {errors.email && (
+                <p className="text-sm text-red-600 mt-1">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+
+            {/* Password */}
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <input
+                {...register("password", {
+                  required: {
+                    value: true,
+                    message: "Password is required",
+                  },
+                  minLength: { value: 3, message: "Min lenght is 3" },
+                  maxLength: { value: 10, message: "Max lenght is 10" },
+                })}
+                type="password"
+                name="password"
+                id="password"
+                value={form.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                className={`mt-1 block w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+                  errors.password
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 focus:ring-indigo-500"
+                }`}
+              />
+              {errors.password && (
+                <p className="text-sm text-red-600 mt-1">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+
+            {/* Submit */}
+            <Button
+              type="submit"
+              className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition hover:cursor-pointer"
+            >
+              Sign Up
+            </Button>
+          </form>
+
+          <div className="mt-6 text-center text-sm text-gray-600">
+            Already have an account?{" "}
+            <Link href={"/signin"} className="text-indigo-600 hover:underline">
+              Sign In
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

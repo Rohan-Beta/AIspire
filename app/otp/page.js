@@ -4,6 +4,7 @@ import React from "react";
 import { useRef } from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 const OTPPage = () => {
   const inputsRef = useRef([]);
@@ -78,7 +79,13 @@ const OTPPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <>
+    <nav className="flex justify-between items-center h-14 border px-4">
+        <div className="text-blue-600 font-bold text-2xl md:text-3xl">
+          AIspire
+        </div>
+      </nav>
+      <div className="min-h-[90vh] flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
         <h2 className="text-2xl font-semibold text-center mb-6">
           Enter the 6-digit OTP
@@ -106,15 +113,16 @@ const OTPPage = () => {
               Please enter all 6 digits of the OTP.
             </p>
           )}
-          <button
+          <Button
             type="submit"
             className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-200"
           >
             Verify OTP
-          </button>
+          </Button>
         </form>
       </div>
     </div>
+    </>
   );
 };
 
