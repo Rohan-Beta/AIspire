@@ -58,7 +58,7 @@ const Welcome = () => {
       </div>
 
       <div className="flex justify-center mt-15 mb-2">
-        <Link href={!user ? "/signup" : "/home"}>
+        <Link href={user && user.isVerified ? "/home" : "/signup"}>
           <Button className="bg-black text-white md:px-8 px-4 py-2 rounded-lg shadow-2xl hover:cursor-pointer">
             Get Started
           </Button>

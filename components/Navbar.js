@@ -42,30 +42,42 @@ export const Navbar = () => {
     fetchUserData();
   }, []);
 
+  if (!user) {
+    return (
+      <div className="flex items-center">
+        <img className="w-10" src="/logo.png" alt="app logo" />
+        <div className="text-blue-600 font-bold text-2xl md:text-3xl">
+          Ispire
+        </div>
+      </div>
+    );
+  }
+
   return (
     <nav className="flex justify-between items-center h-14 border px-4">
-      <div className="text-blue-600 font-bold text-2xl md:text-3xl">
-        AIspire
+      <div className="flex items-center">
+        <img className="w-10" src="/logo.png" alt="app logo" />
+        <div className="text-blue-600 font-bold text-2xl md:text-3xl">
+          Ispire
+        </div>
       </div>
-      {!user ? (
+      {user && user.isVerified ? (
+        <div>{user.name}</div>
+      ) : (
         <div>
-        <Link href={"/signin"}>
-          <Button className="bg-blue-600 text-white px-4 py-1 rounded-lg mx-4 hover:cursor-pointer hover:bg-indigo-700 transition">
-            Sign In
-          </Button>
-        </Link>
+          <Link href={"/signin"}>
+            <Button className="bg-blue-600 text-white px-4 py-1 rounded-lg mx-4 hover:cursor-pointer hover:bg-indigo-700 transition">
+              Sign In
+            </Button>
+          </Link>
 
-        <Link href={"/signup"}>
-          <Button className="bg-blue-600 text-white px-4 py-1 rounded-lg hover:cursor-pointer hover:bg-indigo-700 transition">
-            Sign Up
-          </Button>
-        </Link>
-      </div>
-      ) : 
-      (<div>
-        {user.name}
-      </div>)
-    }
+          <Link href={"/signup"}>
+            <Button className="bg-blue-600 text-white px-4 py-1 rounded-lg hover:cursor-pointer hover:bg-indigo-700 transition">
+              Sign Up
+            </Button>
+          </Link>
+        </div>
+      )}
     </nav>
   );
 };
