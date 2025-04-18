@@ -45,7 +45,7 @@ const Welcome = () => {
   }, []);
 
   return (
-    <div className="h-full pb-6">
+    <div className="h-full pb-6 bg-gray-50">
       <Navbar />
 
       <div className="flex justify-center mt-30 md:text-5xl text-4xl font-bold">

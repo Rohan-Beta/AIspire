@@ -20,3 +20,18 @@ export const StudyList = [
         icon: "/logo.png"
     },
 ]
+
+export const TutorList = [
+    {
+        name: "Joanna",
+        icon: "/joanna.avif"
+    },
+    {
+        name: "Sallie",
+        icon: "/sallie.avif"
+    },
+    {
+        name: "Mathhew",
+        icon: "/mathew.avif"
+    },
+]

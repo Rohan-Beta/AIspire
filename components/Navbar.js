@@ -44,12 +44,14 @@ export const Navbar = () => {
 
   if (!user) {
     return (
+      <nav className="flex justify-between items-center h-14 border px-4 bg-white">
       <div className="flex items-center">
         <img className="w-10" src="/logo.png" alt="app logo" />
         <div className="text-blue-600 font-bold text-2xl md:text-3xl">
           Ispire
         </div>
       </div>
+      </nav>
     );
   }
 
