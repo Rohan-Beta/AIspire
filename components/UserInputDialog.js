@@ -17,32 +17,32 @@ import { Button } from "./ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useEffect } from "react";
 import { LoaderCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const UserInputDialog = ({ children, studyList }) => {
-  
   const [selectedTopic, setSelectedTopic] = useState("");
   const [selectedTutor, setSelectedTutor] = useState("");
   const [topic, setTopic] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter()
 
   useEffect(() => {
-      const fetchUserData = async () => {
-        
-        setSelectedTopic(studyList.name)
-      };
-      fetchUserData();
-    }, []);
+    const fetchUserData = async () => {
+      setSelectedTopic(studyList.name);
+    };
+    fetchUserData();
+  }, []);
 
   const onSubmit = async (e) => {
-
     setLoading(true);
 
     const token = localStorage.getItem("authToken");
 
-      if (!token) {
-        setError("No authentication token found");
-        return;
-      }
+    if (!token) {
+      setError("No authentication token found");
+      return;
+    }
 
     try {
       let res = await fetch("http://localhost:4000/api/discussion", {
@@ -51,17 +51,24 @@ const UserInputDialog = ({ children, studyList }) => {
           "Content-Type": "application/json",
           "auth-token": token,
         },
-        body: JSON.stringify({selectedTopic, selectedTutor, topic}),
+        body: JSON.stringify({ selectedTopic, selectedTutor, topic }),
       });
 
       const data = await res.json();
 
-      setSelectedTutor("");
+      if(res.status == 200) {
+        alert("Discussion Room Created")
+        router.push("/discussion-room/" + data._id)
+      }
+      if(res.status == 500) {
+        alert(data.error)
+      }
 
+      setSelectedTutor("");
     } catch (error) {
       console.log("server Issue");
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   return (
@@ -113,15 +120,16 @@ const UserInputDialog = ({ children, studyList }) => {
                   </Button>
                 </DialogClose>
 
-                <Button
-                onClick={onSubmit}
-                  disabled={!topic || !selectedTutor || loading}
-                  className="hover:cursor-pointer hover:bg-white hover:text-black border hover:border-black transition-all"
-                >
-                  {loading && <LoaderCircle className="animate-spin" />}
-                  Next
-                </Button>
-
+                <DialogClose>
+                  <Button
+                    onClick={onSubmit}
+                    disabled={!topic || !selectedTutor || loading}
+                    className="hover:cursor-pointer hover:bg-white hover:text-black border hover:border-black transition-all"
+                  >
+                    {loading && <LoaderCircle className="animate-spin" />}
+                    Next
+                  </Button>
+                </DialogClose>
               </div>
             </div>
           </DialogDescription>

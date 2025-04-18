@@ -32,6 +32,6 @@ export const TutorList = [
     },
     {
         name: "Mathhew",
-        icon: "/mathew.avif"
+        icon: "/mathhew.avif"
     },
 ]
