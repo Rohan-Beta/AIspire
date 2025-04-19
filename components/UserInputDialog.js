@@ -90,7 +90,7 @@ const UserInputDialog = ({ children, studyList }) => {
 
               <h2 className="mt-5 mb-2 text-gray-700">Select a Tutor Guide</h2>
 
-              <div className="grid grid-cols-3 md:grid-cols-5 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
                 {TutorList.map((option, index) => (
                   <div
                     key={index}
@@ -104,7 +104,7 @@ const UserInputDialog = ({ children, studyList }) => {
                         "border-2 p-1 rounded-2xl shadow-2xl border-blue-300"
                       }`}
                     />
-                    <h2 className="text-center mt-1">{option.name}</h2>
+                    <h2 className="md:text-center mt-1">{option.name}</h2>
                   </div>
                 ))}
               </div>

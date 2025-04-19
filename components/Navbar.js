@@ -64,7 +64,9 @@ export const Navbar = () => {
         </div>
       </div>
       {user && user.isVerified ? (
-        <div>{user.name}</div>
+        <div className="bg-black text-white rounded-full px-4 py-2 hover:bg-white hover:text-black border hover:border-black hover:cursor-pointer">
+        {user.name[0]}
+      </div>
       ) : (
         <div>
           <Link href={"/signin"}>
