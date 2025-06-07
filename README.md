@@ -1,11 +1,11 @@
-## Tech Stack
+# Tech Stack
 
-# Next.js (UI)
+1. Next.js, Tailwindcss, Shadcn (UI)
 
-# Clerk (valid user authentication)
+2. Clerk (valid user authentication)
 
-# Sentry (Handling error for realtime saas app)
+3. Sentry (Handling error for realtime saas app)
 
-# Vapi (Interact with user through voice)
+4. Vapi (Interact with user through voice)
 
-# Postgresql (store data)
+5. Postgresql (store data)

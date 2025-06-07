@@ -213,6 +213,29 @@ body {
   .transcript-fade {
     @apply pointer-events-none absolute bottom-0 left-0 right-0 h-40 max-sm:h-20 bg-gradient-to-t from-background via-background/90 to-transparent z-10;
   }
+  .logo {
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+  }
+  .gradientText {
+    background: linear-gradient(-45deg, #ff0057, #0099ff, #9c27b0, #00c853);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 5s ease infinite;
+  }
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 }
 
 @layer utilities {
