@@ -26,7 +26,7 @@ const CompanionList = ({
   classNames,
 }: CompanionListProps) => {
   return (
-    <article className={cn("companion-list", classNames)}>
+    <article className={cn("companion-list mb-10", classNames)}>
       <h2 className="font-bold text-3xl">Recent Sessions</h2>
       <Table>
         <TableHeader>
@@ -39,6 +39,7 @@ const CompanionList = ({
         <TableBody>
           {companions!.map((companion) => (
             <TableRow key={companion.id}>
+              {/* lessons */}
               <TableCell>
                 <Link href={`/companions/${companion.id}`}>
                   <div className="flex items-center gap-2">
@@ -62,12 +63,42 @@ const CompanionList = ({
                   </div>
                 </Link>
               </TableCell>
+
+              {/* subject */}
               <TableCell>
                 <div className="subject-badge w-fit max-md:hidden">
                   {companion.subject}
                 </div>
-                <div className="flex items-center justify-center rounded-lg w-fit p-2 md:hidden" style={{backgroundColor: getSubjectColor(companion.subject)}}>
-                  <Image src={`/icons/${companion.subject}.svg`} width={18} height={18} alt={companion.subject}></Image>
+                <div
+                  className="flex items-center justify-center rounded-lg w-fit p-2 md:hidden"
+                  style={{
+                    backgroundColor: getSubjectColor(companion.subject),
+                  }}
+                >
+                  <Image
+                    src={`/icons/${companion.subject}.svg`}
+                    width={18}
+                    height={18}
+                    alt={companion.subject}
+                  ></Image>
+                </div>
+              </TableCell>
+
+              {/* duration */}
+              <TableCell>
+                <div className="flex items-center gap-2 w-full justify-end">
+                  <p className="text-2xl">
+                    {companion.duration}{" "}
+                    <span className="max-md:hidden">mins</span>
+                  </p>
+                  <Image
+                    src={"/icons/clock.svg"}
+                    alt="minutes"
+                    width={14}
+                    height={14}
+                    className="md:hidden"
+                  >
+                  </Image>
                 </div>
               </TableCell>
             </TableRow>
