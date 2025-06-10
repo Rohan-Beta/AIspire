@@ -9,3 +9,5 @@
 4. Vapi (Interact with user through voice)
 
 5. Postgresql (store data)
+
+6. Clerk (secure authentication and billing features)
