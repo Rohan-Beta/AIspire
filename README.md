@@ -2,12 +2,10 @@
 
 1. Next.js, Tailwindcss, Shadcn (UI)
 
-2. Clerk (valid user authentication)
+2. Clerk (valid user authentication and handling subscription)
 
 3. Sentry (Handling error for realtime saas app)
 
-4. Vapi (Interact with user through voice)
+4. VapiAI (Interact with user through voice)
 
-5. Postgresql (store data)
-
-6. Clerk (secure authentication and billing features)
+5. Supabase(Postgresql)(store data)

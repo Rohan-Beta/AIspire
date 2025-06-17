@@ -1,5 +1,7 @@
 "use server";
 
+// handling server and fetch data from supabase
+
 import { CreateCompanion, GetAllCompanions } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 import { createSupabseClient } from "../supabase";
@@ -47,3 +49,16 @@ export const getAllCompanions = async ({
 
   return companions;
 };
+
+export const getCompanion = async (id: string) => {
+    const supabase = createSupabseClient();
+
+    const { data, error } = await supabase
+        .from('companions')
+        .select()
+        .eq('id', id);
+
+    if(error) return console.log(error);
+
+    return data[0];
+}
