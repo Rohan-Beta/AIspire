@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 import Image from "next/image";
 import { getSubjectColor } from "@/lib/utils";
+import CompanionComponent from "@/components/CompanionComponent";
 
 interface CompanionSessionPageProps {
   params: Promise<{ id: string }>;
@@ -38,7 +39,9 @@ const CompanionSession = async ({ params }: CompanionSessionPageProps) => {
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
               <p className="font-bold text-2xl">{companion.name}</p>
-              <div className="subject-badge max-sm:hidden">{companion.subject}</div>
+              <div className="subject-badge max-sm:hidden">
+                {companion.subject}
+              </div>
             </div>
             <p className="text-lg">{companion.topic}</p>
           </div>
@@ -48,12 +51,12 @@ const CompanionSession = async ({ params }: CompanionSessionPageProps) => {
         </div>
       </article>
 
-      {/* <CompanionComponent
-        {...companion}
-        companionId={id}
-        userName={user.firstName!}
-        userImage={user.imageUrl!}
-      /> */}
+      <CompanionComponent
+      {...companion}
+      companionId = {id}
+      userName = {user.firstName!}
+      userImage = {user.imageUrl!}
+       />
     </main>
   );
 };
