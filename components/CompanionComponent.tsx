@@ -1,11 +1,12 @@
 "use client";
 
-import { cn, getSubjectColor } from "@/lib/utils";
+import { cn, configureAssistant, getSubjectColor } from "@/lib/utils";
 import { vapi } from "@/lib/vapi.sdk";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
 import soundwaves from "../constants/soundwaves.json";
+import { SavedMessage } from "@/types";
 
 interface CompanionComponentProps {
   companionId: string;
@@ -22,7 +23,7 @@ enum CallStatus {
   INACTIVE = "INACTIVE",
   CONNECTING = "CONNECTING",
   ACTIVE = "ACTIVE",
-  FINISHED = "ACTIVE",
+  FINISHED = "FINISHED",
 }
 
 const CompanionComponent = ({
@@ -38,6 +39,7 @@ const CompanionComponent = ({
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [messages, setMessages] = useState<SavedMessage[]>([]);
 
   const lottieRef = useRef<LottieRefCurrentProps>(null);
 
@@ -56,7 +58,13 @@ const CompanionComponent = ({
 
     const onCallEnd = () => setCallStatus(CallStatus.FINISHED);
 
-    const onMessage = () => {};
+    const onMessage = (message: Message) => {
+      if (message.type === "transcript" && message.transcriptType === "final") {
+        const newMessage = { role: message.role, content: message.transcript };
+
+        setMessages((prev) => [newMessage, ...prev]);
+      }
+    };
 
     const onSpeechStart = () => setIsSpeaking(true);
 
@@ -86,14 +94,28 @@ const CompanionComponent = ({
     vapi.setMuted(!isMuted);
     setIsMuted(!isMuted);
   };
-  const handleCall = async() => {
-  };
-  const handleDisconnect = () => {
+  const handleCall = async () => {
+    setCallStatus(CallStatus.CONNECTING);
 
+    const assistantOverrides = {
+      variableValues: {
+        subject,
+        topic,
+        style,
+      },
+      clientMessages: ["transcript"],
+      serverMessages: [],
+    };
+    // @ts-expect-error
+    vapi.start(configureAssistant(voice, style), assistantOverrides);
+  };
+  const handleDisconnect = async () => {
+    setCallStatus(CallStatus.FINISHED);
+    vapi.stop();
   };
 
   return (
-    <section className="flex flex-col h-[70vh]">
+    <section className="flex flex-col h-[70vh] md:h-screen">
       <section className="flex gap-8 max-sm:flex-col">
         <div className="companion-section">
           <div
@@ -146,7 +168,11 @@ const CompanionComponent = ({
             />
             <p className="font-bold text-2xl">{userName}</p>
           </div>
-          <button className="btn-mic" onClick={toggleMicrophone}>
+          <button
+            className="btn-mic"
+            onClick={toggleMicrophone}
+            disabled={callStatus !== CallStatus.ACTIVE}
+          >
             <Image
               src={isMuted ? "/icons/mic-off.svg" : "/icons/mic-on.svg"}
               alt="mic"
@@ -163,7 +189,9 @@ const CompanionComponent = ({
               callStatus === CallStatus.ACTIVE ? "bg-red-700" : "bg-primary",
               callStatus === CallStatus.CONNECTING && "animate-pulse"
             )}
-            onClick={callStatus === CallStatus.ACTIVE ? handleDisconnect : handleCall}
+            onClick={
+              callStatus === CallStatus.ACTIVE ? handleDisconnect : handleCall
+            }
           >
             {callStatus === CallStatus.ACTIVE
               ? "End Session"
@@ -175,7 +203,22 @@ const CompanionComponent = ({
       </section>
       <section className="transcript">
         <div className="transcript-message no-scrollbar">
-          Message
+          {messages.map((message, index) => {
+            if (message.role === "assistant") {
+              return (
+                <p key={index} className="max-sm:text-sm">
+                  {name.split(" ")[0].replace("/[.,]/g,", "")}:{" "}
+                  {message.content}
+                </p>
+              );
+            } else {
+              return (
+                <p key={index} className="text-primary max-sm:text-sm">
+                  {userName}: {message.content}
+                </p>
+              );
+            }
+          })}
         </div>
         <div className="transcript-fade" />
       </section>
