@@ -5,6 +5,8 @@ import Cta from "@/components/CTA";
 import "../app/globals.css";
 import { getAllCompanions, getRecentSessions } from "@/lib/actions/companion.action";
 import { getSubjectColor } from "@/lib/utils";
+export const dynamic = 'force-dynamic';
+
 
 const Page = async () => {
 
