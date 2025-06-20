@@ -7,6 +7,7 @@ import Image from "next/image";
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
 import soundwaves from "../constants/soundwaves.json";
 import { SavedMessage } from "@/types";
+import { addToSessionHistory } from "@/lib/actions/companion.action";
 
 interface CompanionComponentProps {
   companionId: string;
@@ -59,7 +60,8 @@ const CompanionComponent = ({
     const onCallEnd = () => {
       setCallStatus(CallStatus.FINISHED);
 
-      // add session history
+      // add to session history
+      addToSessionHistory(companionId)
     }
 
     const onMessage = (message: Message) => {
